@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,15 +24,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class QuestionActivity extends AppCompatActivity {
 
-    int timer = 21, index = 1, responded = 1, max;
+    int timer = 21, index = 0, responded = 1, max;
     //Responded is for flag
     CountDownTimer ct;
     QuestionLayout questionLayout = new QuestionLayout();
@@ -41,8 +39,9 @@ public class QuestionActivity extends AppCompatActivity {
     //RecordData dataRecord = new RecordData();
     String answer;
     DatabaseReference reference;
-    Integer total;
-    Integer[] collection;
+    //    Integer total;
+//    Integer[] collection = new Integer[17];
+    Integer[] collection = new Integer[17];
     int[] stats = {0, 0};
     /*
     stat[0] : correct
@@ -55,6 +54,7 @@ public class QuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_question);
         getID();
         ProgressBar quizTimer = findViewById(R.id.quiztimer);
+
         genRandom();
         updateQuestions();
         Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -161,7 +161,6 @@ public class QuestionActivity extends AppCompatActivity {
 
 
         responded = 0;
-//        reference = FirebaseDatabase.getInstance().getReference().child("Questions").child(String.valueOf(index));
         reference = FirebaseDatabase.getInstance().getReference().child("Questions").child(String.valueOf(collection[index]));
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -193,40 +192,49 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void genRandom() {
 
+//        Integer[] data;
+//
+//        DatabaseReference fetchTotal = FirebaseDatabase.getInstance().getReference().child("total");
+//        fetchTotal.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+////                Integer total = snapshot.getValue(Integer.class);
+////                max = total;
+////                String[] temp = new String[max];
+////                for (int i = 0; i < temp.length; i++) {
+////                    temp[i] = String.valueOf((i + 1));
+////                }
+//                Integer total = snapshot.getValue(Integer.class);
+//                Integer[] temp = new Integer[17];
+//                for (int i = 0; i < temp.length; i++) {
+//                    temp[i] = (i + 1);
+//                    Collections.shuffle(Arrays.asList(temp));
+//                }
+//                collection = temp;
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(QuestionActivity.this, "data failed", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
-        DatabaseReference fetchTotal = FirebaseDatabase.getInstance().getReference().child("total");
-        fetchTotal.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                String total = snapshot.getValue(String.class);
-                Integer total = snapshot.getValue(Integer.class);
-                Integer[] temp = new Integer[total];
-                for (int i = 0; i < temp.length; i++) {
-                    temp[i] = (i + 1);
-                }
-                collection = temp;
-                Collections.shuffle(Arrays.asList(collection));
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-//        max--;
-
-//        for (int i = 0; i < collection.length; i++) {
-//            collection[i] = (i + 1);
-//        }
-//        Collections.shuffle(Arrays.asList(collection));
+        //Working Code
+        for (int i = 0; i < collection.length; i++) {
+            collection[i] = (i + 1);
+        }
+        Collections.shuffle(Arrays.asList(collection));
 
 //        for (int i = 0; i < collection.length; i++) {
 //            collectionIndex[i] = collection[i].toString();
 //        }
+    }
 
+    public void assignValues(Integer[] indices) {
+        collection = indices;
+        Toast.makeText(this, "" + collection.length, Toast.LENGTH_SHORT).show();
     }
 
     public void showResult() {
