@@ -1,7 +1,7 @@
 <h1>Quizee Android App</h1>
 A simple and beautiful Android quiz application project with an online database (firebase) for question storage.
 
-
+<div align="center">
 <h3>Splash Screen</h3>
 <img src="https://github.com/jaikr24/Quizee/assets/87568222/8f55af08-31d9-4534-ba33-db6f51906a76" width=300>
 
@@ -22,3 +22,4 @@ A simple and beautiful Android quiz application project with an online database 
 
 <h3>Score Board</h3>
 <img src="https://github.com/jaikr24/Quizee/assets/87568222/7f56599b-e7cc-4c5c-b83b-1b23778b190f" width=300>
+</div>
